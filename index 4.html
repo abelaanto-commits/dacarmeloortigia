@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Carmelo – Life's Flow | Ristorante Pizzeria Siracusa</title>
+  <meta name="description" content="Da Carmelo – Cucina siciliana tradizionale e pizzeria artigianale nel cuore di Siracusa. Via del Crocifisso 44, Ortigia. Drink · Feel · Eat." />
+  <meta name="keywords" content="ristorante siracusa, pizzeria siracusa, cucina siciliana, ortigia, da carmelo, pizzeria ortigia" />
+  <meta property="og:title" content="Da Carmelo – Life's Flow | Siracusa" />
+  <meta property="og:description" content="Cucina siciliana e pizzeria artigianale nel cuore di Ortigia, Siracusa." />
+  <meta property="og:image" content="images/pizza.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #141010;
+      --cream2:   #1C1614;
+      --brown:    #E8DDD0;
+      --brown2:   #C9B8A4;
+      --gold:     #C9952E;
+      --gold2:    #E8B84A;
+      --stone:    #3A3028;
+      --text:     #EDE5D8;
+      --muted:    #9A8878;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1C1614; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(20, 16, 16, 0.97);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(61,26,14,0.12);
+      padding: 0.6rem 3rem;
+    }
+    .nav-logo img { height: 52px; transition: height 0.4s; }
+    nav.scrolled .nav-logo img { height: 40px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brown);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--gold); color: #141010 !important;
+      padding: 0.5rem 1.4rem;
+      border-radius: 2px;
+      font-size: 0.72rem !important;
+      letter-spacing: 0.2em !important;
+      text-transform: uppercase;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--gold2) !important; color: #141010 !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--brown); transition: 0.3s; }
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--cream);
+      z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--brown); text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; font-size: 2rem;
+      cursor: pointer; color: var(--brown);
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 8rem 4rem 4rem 5rem;
+      background: var(--cream);
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-logo {
+      width: 320px; max-width: 100%;
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 360px;
+      margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+    }
+    .btn-primary {
+      background: var(--brown); color: var(--cream);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
+      text-decoration: none; border: none; cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.3s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold); color: #141010; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: var(--brown);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
+      text-decoration: none; border: 1.5px solid var(--brown); cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    .btn-outline:hover { background: var(--brown); color: var(--cream); }
+
+    .hero-info {
+      margin-top: 4rem;
+      display: flex; gap: 2.5rem;
+      opacity: 0; animation: fadeUp 0.9s 1.1s forwards;
+    }
+    .hero-info-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .hero-info-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+    .hero-info-val { font-size: 0.9rem; color: var(--brown); font-weight: 400; }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      opacity: 0; animation: fadeIn 1.2s 0.4s forwards;
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .hero-right:hover img { transform: scale(1); }
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--cream) 0%, transparent 40%);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+      z-index: 5;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block; width: 1px; height: 40px;
+      background: var(--gold);
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.65rem; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 500; margin-bottom: 1rem;
+    }
+    h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+    .section-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 600; color: var(--brown);
+      line-height: 1.15;
+    }
+    .section-divider {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; margin: 1.5rem auto 0;
+    }
+    .section-divider::before, .section-divider::after {
+      content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--stone);
+    }
+    .diamond { color: var(--gold); font-size: 0.7rem; }
+
+    /* ─── CHI SIAMO ─── */
+    #chisiamo { background: var(--cream2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .about-images {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      position: relative;
+    }
+    .about-images .img-main {
+      grid-column: 1 / -1;
+      height: 320px; overflow: hidden; border-radius: 2px;
+    }
+    .about-images .img-secondary {
+      height: 200px; overflow: hidden; border-radius: 2px;
+    }
+    .about-images img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .about-images img:hover { transform: scale(1.04); }
+    .about-badge {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      width: 110px; height: 110px;
+      background: #0A0806; border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--gold); text-align: center; padding: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .about-badge .badge-num { font-size: 2rem; font-weight: 600; line-height: 1; }
+    .about-badge .badge-txt { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .about-text { display: flex; flex-direction: column; gap: 1.5rem; }
+    .about-text p {
+      font-size: 1.02rem; line-height: 1.85; color: var(--muted); font-weight: 300;
+    }
+    .about-highlight {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-style: italic;
+      color: var(--brown2); line-height: 1.4;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--gold);
+    }
+    .about-features { display: flex; gap: 2rem; margin-top: 1rem; }
+    .feature { display: flex; flex-direction: column; gap: 0.3rem; }
+    .feature-icon { font-size: 1.5rem; }
+    .feature-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+    .feature-val { font-size: 0.9rem; color: var(--brown); }
+
+    /* ─── GALLERY ─── */
+    #galleria { background: var(--cream); overflow: hidden; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.8rem;
+    }
+    .gallery-item { overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item:first-child { grid-row: 1 / 3; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; display: block; }
+    .gallery-item:first-child img { min-height: 520px; }
+    .gallery-item:not(:first-child) img { min-height: 250px; }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.5);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span { color: white; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; }
+
+    /* ─── MENU ─── */
+    #menu { background: var(--cream2); }
+    .menu-tabs {
+      display: flex; gap: 0; margin-bottom: 3.5rem;
+      border-bottom: 1.5px solid var(--stone);
+      overflow-x: auto; scrollbar-width: none;
+      justify-content: center;
+    }
+    .menu-tabs::-webkit-scrollbar { display: none; }
+    .menu-tab {
+      background: none; border: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      padding: 1rem 1.8rem;
+      position: relative; white-space: nowrap;
+      transition: color 0.3s;
+    }
+    .menu-tab::after {
+      content: '';
+      position: absolute; bottom: -1.5px; left: 0; right: 0;
+      height: 2px; background: var(--gold);
+      transform: scaleX(0); transition: transform 0.3s;
+    }
+    .menu-tab:hover { color: var(--brown); }
+    .menu-tab.active { color: var(--brown); }
+    .menu-tab.active::after { transform: scaleX(1); }
+
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; animation: fadeIn 0.4s; }
+    .menu-section { margin-bottom: 3rem; }
+    .menu-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; color: var(--brown2);
+      margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--stone);
+    }
+    .menu-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(200,185,154,0.3);
+      transition: background 0.2s;
+    }
+    .menu-item:hover { background: rgba(200,185,154,0.15); }
+    .menu-item-info { flex: 1; padding-right: 1rem; }
+    .menu-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 600; color: var(--brown);
+    }
+    .menu-item-desc { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.5; font-weight: 300; }
+    .menu-item-price { font-size: 1rem; color: var(--gold); font-weight: 600; white-space: nowrap; font-family: 'Cormorant Garamond', serif; }
+    .menu-note {
+      font-size: 0.75rem; color: var(--muted); margin-top: 2rem; padding-top: 1rem;
+      border-top: 1px solid var(--stone);
+      font-style: italic;
+    }
+
+    /* supplementi highlight */
+    .suppl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .suppl-item {
+      background: rgba(255,255,255,0.04); padding: 1.2rem 1.5rem;
+      border-radius: 2px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .suppl-item .suppl-price { color: var(--gold); font-weight: 600; font-size: 1rem; font-family: 'Cormorant Garamond', serif; }
+
+    /* ─── PRENOTAZIONE ─── */
+    #prenotazione { background: #0D0A08; color: var(--cream); position: relative; overflow: hidden; }
+    #prenotazione::before {
+      content: '';
+      position: absolute; top: -50%; right: -20%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,136,42,0.15) 0%, transparent 70%);
+    }
+    .reservation-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: start; }
+    .reservation-info .section-eyebrow { color: var(--gold2); }
+    .reservation-info .section-title { color: var(--text); margin-bottom: 1.5rem; }
+    .reservation-info p { color: rgba(232,221,208,0.6); line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+    .res-contact { display: flex; flex-direction: column; gap: 1rem; }
+    .res-contact-item { display: flex; align-items: center; gap: 1rem; }
+    .res-contact-icon { font-size: 1.2rem; }
+    .res-contact-text { color: rgba(232,221,208,0.75); font-size: 0.9rem; }
+    .res-contact-text strong { color: var(--text); font-weight: 500; }
+    .res-form { background: rgba(255,255,255,0.04); padding: 2.5rem; border-radius: 2px; backdrop-filter: blur(4px); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold2); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(200,185,154,0.3);
+      color: var(--cream);
+      padding: 0.8rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(232,221,208,0.25); }
+    .form-group select option { background: var(--brown); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      margin-top: 1.5rem;
+      width: 100%; padding: 1rem;
+      background: var(--gold);
+      border: none; color: var(--brown);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.25em;
+      text-transform: uppercase; font-weight: 600;
+      cursor: pointer; border-radius: 2px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .form-submit:hover { background: var(--gold2); transform: translateY(-1px); }
+    .reservation-message { min-height: 22px; margin-top: 1rem; font-size: 0.9rem; color: rgba(232,221,208,0.72); line-height: 1.6; }
+    .reservation-message.success { color: #d7f8e9; }
+    .reservation-message.error { color: #ffd3d3; }
+    .form-notice { font-size: 0.72rem; color: rgba(232,221,208,0.35); margin-top: 1rem; text-align: center; }
+
+    /* ─── CONTATTI & MAPPA ─── */
+    #contatti { background: var(--cream); padding: 0; }
+    .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .contacts-info {
+      padding: 7rem 4rem 7rem 5rem;
+      display: flex; flex-direction: column; gap: 3rem;
+    }
+    .contact-block { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-block-title {
+      font-size: 0.65rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 500;
+    }
+    .contact-block-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--brown); line-height: 1.5;
+    }
+    .contact-block-val a { color: var(--brown); text-decoration: none; transition: color 0.3s; }
+    .contact-block-val a:hover { color: var(--gold); }
+    .contact-social { display: flex; gap: 1rem; }
+    .social-link {
+      width: 42px; height: 42px;
+      border: 1.5px solid var(--stone);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: var(--brown);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .social-link:hover { background: var(--brown); color: var(--cream); border-color: var(--brown); }
+    .map-container { position: relative; min-height: 500px; }
+    .map-container iframe { width: 100%; height: 100%; border: none; display: block; min-height: 500px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0A0806;
+      color: rgba(244,238,224,0.6);
+      padding: 3rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    footer img { height: 50px; margin-bottom: 1.5rem; opacity: 0.85; filter: brightness(1.2); }
+    footer p { line-height: 2; }
+    footer a { color: var(--gold2); text-decoration: none; }
+    .footer-divider { width: 40px; height: 1px; background: var(--gold); margin: 1.5rem auto; }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed; inset: 0;
+      background: rgba(5,3,2,0.97);
+      z-index: 9000;
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 2px; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: white;
+      font-size: 2.5rem; cursor: pointer; opacity: 0.7;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: #1C1614; color: var(--cream);
+      padding: 1rem 2rem; border-radius: 2px;
+      font-size: 0.85rem; z-index: 9999;
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.4s;
+      border-left: 3px solid var(--gold);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 8rem 2rem 4rem; }
+      .hero-right { height: 55vw; }
+      .hero-right::after { background: linear-gradient(to top, var(--cream) 0%, transparent 40%); }
+      .about-grid, .reservation-grid, .contacts-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contacts-info { padding: 4rem 2rem; }
+      .map-container, .map-container iframe { min-height: 350px; }
+      .menu-items { grid-template-columns: 1fr; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      nav.scrolled { padding: 0.6rem 1.5rem; }
+      .hero-info { flex-wrap: wrap; gap: 1.5rem; }
+      .about-badge { bottom: -1rem; right: 0; width: 90px; height: 90px; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 5rem 0; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: 1 / -1; grid-row: auto; }
+      .gallery-item:first-child img, .gallery-item:not(:first-child) img { min-height: 200px; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo"><img src="images/logo.png" alt="Da Carmelo" /></a>
+  <ul class="nav-links">
+    <li><a href="#chisiamo">Chi Siamo</a></li>
+    <li><a href="#galleria">Galleria</a></li>
+    <li><a href="#menu">Menù</a></li>
+    <li><a href="#prenotazione">Prenota</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#chisiamo" class="mobile-link">Chi Siamo</a>
+  <a href="#galleria" class="mobile-link">Galleria</a>
+  <a href="#menu" class="mobile-link">Menù</a>
+    <a href="#prenotazione" class="mobile-link">Prenota</a>
+    <a href="#contatti" class="mobile-link">Contatti</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Ortigia · Siracusa · Sicilia</p>
+    <img src="images/logo.png" alt="Da Carmelo – Life's Flow" class="hero-logo" />
+    <p class="hero-tagline">Cucina siciliana autentica e pizza artigianale, nel cuore antico di Siracusa.</p>
+    <div class="hero-actions">
+<a href="#menu" class="btn-outline">Scopri il Menù</a>
+    </div>
+    <div class="hero-info">
+      <div class="hero-info-item">
+        <span class="hero-info-label">Orari</span>
+        <span class="hero-info-val">12:00 – 00:00</span>
+      </div>
+      <div class="hero-info-item">
+        <span class="hero-info-label">Telefono</span>
+        <span class="hero-info-val">0931 138 5898</span>
+      </div>
+      <div class="hero-info-item">
+        <span class="hero-info-label">Dove</span>
+        <span class="hero-info-val">Via del Crocifisso 44</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/pizza.jpg" alt="Le pizze di Da Carmelo" />
+  </div>
+  <div class="hero-scroll">Scorri</div>
+</section>
+
+<!-- CHI SIAMO -->
+<section id="chisiamo">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-images reveal">
+        <div class="img-main">
+          <img src="images/sala1.jpg" alt="La sala di Da Carmelo" />
+        </div>
+        <div class="img-secondary">
+          <img src="images/pasta.jpg" alt="Tagliolini con pesce spada" />
+        </div>
+        <div class="img-secondary">
+          <img src="images/piatto.jpg" alt="Fritto di pesce con champagne" />
+        </div>
+        <div class="about-badge">
+          <span class="badge-num">♦</span>
+          <span class="badge-txt">Life's Flow</span>
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
+          <span class="section-eyebrow">La nostra storia</span>
+          <h2 class="section-title">Dove la Sicilia<br/>incontra il gusto</h2>
+          <div class="section-divider" style="justify-content:flex-start; margin-left:0;">
+            <span class="diamond">◆</span>
+            <div style="flex:0; width:60px; height:1px; background:var(--stone);"></div>
+          </div>
+        </div>
+        <p class="about-highlight">"Drink · Feel · Eat" — tre parole che raccontano un'esperienza, non solo un pasto.</p>
+        <p>Da Carmelo è nato da una passione profonda per la cucina siciliana e per i prodotti della nostra terra. Situato nel cuore di Ortigia, tra le pietre millenarie di Siracusa, il nostro locale è un luogo dove il tempo rallenta e i sapori autentici prendono vita.</p>
+        <p>I nostri impasti per la pizza maturano lentamente, le materie prime sono selezionate con cura tra i migliori produttori siciliani, e ogni piatto porta con sé il calore di una tradizione familiare che si rinnova ogni giorno.</p>
+        <div class="about-features">
+          <div class="feature">
+            <span class="feature-icon">🍕</span>
+            <span class="feature-label">Pizza</span>
+            <span class="feature-val">Artigianale</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🌿</span>
+            <span class="feature-label">Prodotti</span>
+            <span class="feature-val">Km Zero</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🍷</span>
+            <span class="feature-label">Vini</span>
+            <span class="feature-val">Selezionati</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🏛️</span>
+            <span class="feature-label">Location</span>
+            <span class="feature-val">Ortigia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERIA -->
+<section id="galleria">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Galleria</span>
+      <h2 class="section-title">Immagini che<br/>raccontano sapori</h2>
+      <div class="section-divider"><span class="diamond">◆</span></div>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item" onclick="openLightbox('images/sala2.jpg')">
+        <img src="images/sala2.jpg" alt="La sala con volte in pietra" loading="lazy" />
+        <div class="gallery-overlay"><span>La nostra sala</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/pizza.jpg')">
+        <img src="images/pizza.jpg" alt="Le pizze artigianali" loading="lazy" />
+        <div class="gallery-overlay"><span>Le nostre pizze</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/pasta.jpg')">
+        <img src="images/pasta.jpg" alt="Tagliolini con vino" loading="lazy" />
+        <div class="gallery-overlay"><span>I nostri piatti</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/sala1.jpg')">
+        <img src="images/sala1.jpg" alt="Sala con enoteca" loading="lazy" />
+        <div class="gallery-overlay"><span>La cantina</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/piatto.jpg')">
+        <img src="images/piatto.jpg" alt="Piatto speciale con champagne" loading="lazy" />
+        <div class="gallery-overlay"><span>Esperienze uniche</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">La nostra cucina</span>
+      <h2 class="section-title">Il Menù</h2>
+      <div class="section-divider"><span class="diamond">◆</span></div>
+      <p style="color:var(--muted); margin-top:1rem; font-size:0.9rem;">Coperto €2,00 · *Prodotto surgelato</p>
+    </div>
+
+    <div class="menu-tabs reveal" id="menuTabs">
+      <button class="menu-tab active" data-panel="classiche">Pizze Classiche</button>
+      <button class="menu-tab" data-panel="speciali">Pizze Speciali</button>
+      <button class="menu-tab" data-panel="focacce">Focacce</button>
+      <button class="menu-tab" data-panel="panozzi">Panozzi</button>
+      <button class="menu-tab" data-panel="dessert">Dessert &amp; Fritti</button>
+      <button class="menu-tab" data-panel="bibite">Bibite</button>
+      <button class="menu-tab" data-panel="supplementi">Supplementi</button>
+    </div>
+
+    <!-- PIZZE CLASSICHE -->
+    <div class="menu-panel active" id="panel-classiche">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Russa</div>
+            <div class="menu-item-desc">Pomodoro, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€7</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Biancaneve</div>
+            <div class="menu-item-desc">Mozzarella, olio evo</div>
+          </div>
+          <div class="menu-item-price">€7</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Margherita</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Bufala</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella di bufala, olio evo, basilico</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Calzone</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, prosciutto cotto, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Norma</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, melanzane, ricotta salata, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Romana</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, acciughe, olive, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Tonno &amp; Cipolla</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, tonno, cipolla, basilico</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">4 Formaggi</div>
+            <div class="menu-item-desc">Mozzarella, provola affumicata, tuma, gorgonzola, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">4 Stagioni</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, prosciutto cotto, funghi freschi, olive, carciofi, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Parmigiana</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, prosciutto cotto, melanzane, uovo, grana padano, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Capricciosa</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, piselli*, olive, funghi freschi, uovo, prosciutto cotto, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">007</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, piselli*, olive, würstel, funghi freschi, uovo, prosciutto cotto, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Giudecca</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, würstel, patatine*, svizzero</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+      </div>
+      <p class="menu-note">Disponibile anche impasto senza glutine (+€3) e impasto integrale (+€2)</p>
+    </div>
+
+    <!-- PIZZE SPECIALI -->
+    <div class="menu-panel" id="panel-speciali">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Cavour</div>
+            <div class="menu-item-desc">Tuma, acciughe, indivia, pomodoro ciliegino, sale, origano, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Umberto</div>
+            <div class="menu-item-desc">Mozzarella, patate al forno, salsiccia, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Giudecca</div>
+            <div class="menu-item-desc">Mozzarella, crema di carciofi, pancetta arrotolata, carciofi, mollica saporita, rucola</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Gargallo</div>
+            <div class="menu-item-desc">Mozzarella, funghi freschi, pomodoro ciliegino, speck, rucola, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Matteotti</div>
+            <div class="menu-item-desc">Mozzarella, stracciatella, mortadella, granella di pistacchio, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Savoia</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, funghi porcini, salsiccia, peperoni arrosto, cipolla, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Dione</div>
+            <div class="menu-item-desc">Mozzarella, crema di zucca, provola affumicata, speck, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Mirabella</div>
+            <div class="menu-item-desc">Pomodoro, svizzero, pomodoro ciliegino, grana padano, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Amalfitania</div>
+            <div class="menu-item-desc">Mozzarella, caponata, pomodoro ciliegino, mollica saporita, basilico</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Galilei</div>
+            <div class="menu-item-desc">Mozzarella, funghi porcini, funghi freschi, radicchio, scaglie di grana padano, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Mergulensi</div>
+            <div class="menu-item-desc">Mozzarella di bufala, ricotta, zucchine e melanzane grigliate, pancetta arrotolata, noci, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Roma</div>
+            <div class="menu-item-desc">Pomodoro, mozzarella, salame piccante, tuma, cipolla, olio evo</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Coronati</div>
+            <div class="menu-item-desc">Mozzarella, gorgonzola, radicchio, prosciutto crudo, scaglie di grana padano, olio evo</div>
+          </div>
+          <div class="menu-item-price">€13</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Crocifisso</div>
+            <div class="menu-item-desc">Mozzarella, salmone affumicato, stracciatella, basilico, olio evo</div>
+          </div>
+          <div class="menu-item-price">€15</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Resalibera</div>
+            <div class="menu-item-desc">Mozzarella, gambero* marinato, mollica saporita</div>
+          </div>
+          <div class="menu-item-price">€18</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Gemmellaro</div>
+            <div class="menu-item-desc">Mozzarella, salsiccia, broccoletti*, olive, pomodori secchi</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOCACCE -->
+    <div class="menu-panel" id="panel-focacce">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Focaccia</div>
+            <div class="menu-item-desc">Sale, origano, olio evo</div>
+          </div>
+          <div class="menu-item-price">€5</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Galilei</div>
+            <div class="menu-item-desc">Tuma di capra a latte crudo bio, acciughe</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Graziella</div>
+            <div class="menu-item-desc">Mozzarella, salame piccante, olive</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Del Teatro</div>
+            <div class="menu-item-desc">Bresaola, rucola, scaglie di parmigiano, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Nizza</div>
+            <div class="menu-item-desc">Bufala, ciliegino, lattuga, olio evo</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Logoteta</div>
+            <div class="menu-item-desc">Mozzarella, gorgonzola, speck di suino nero siciliano, noci, miele</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Lanza</div>
+            <div class="menu-item-desc">Philadelphia, mortadella del Chiaramontano, pistacchio</div>
+          </div>
+          <div class="menu-item-price">€12</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PANOZZI -->
+    <div class="menu-panel" id="panel-panozzi">
+      <p style="color:var(--muted); margin-bottom:1.5rem; font-size:0.85rem; font-style:italic;">Ogni panozzo è servito con il suo contorno indicato.</p>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Apollonion</div>
+            <div class="menu-item-desc">Polpette al sugo · patate fresche fritte</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Pancali</div>
+            <div class="menu-item-desc">Frittata di patate e cipolla · insalata di pomodoro</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Mazzini</div>
+            <div class="menu-item-desc">Melanzane, zucchine e peperoni arrosto · pomodoro fresco e burrata</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Dei Mille</div>
+            <div class="menu-item-desc">Hamburger, tuma, lattuga · patate fresche fritte</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Maniace</div>
+            <div class="menu-item-desc">Straccetti di pollo allo spiedo, lattuga, pomodoro, cipolla, salsa di Carmelo · patate fresche fritte</div>
+          </div>
+          <div class="menu-item-price">€8</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Conciliazione</div>
+            <div class="menu-item-desc">Carne di cavallo, tuma di capra a latte crudo bio, pomodoro secco · patate fresche fritte</div>
+          </div>
+          <div class="menu-item-price">€9</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Giudecca</div>
+            <div class="menu-item-desc">Mozzarella, bresaola, scaglie di parmigiano, rucola · insalata di ciliegino</div>
+          </div>
+          <div class="menu-item-price">€9</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Giaracà</div>
+            <div class="menu-item-desc">Salsiccia, tuma di capra a latte crudo bio, friarielli o broccoli*, olive, pomodoro secco · verdure ripassate</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name">Aretusa</div>
+            <div class="menu-item-desc">Mozzarella, cocktail di gambero*, lattuga · insalatina d'arance</div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESSERT & FRITTI -->
+    <div class="menu-panel" id="panel-dessert">
+      <div class="menu-section">
+        <div class="menu-section-title">Dessert</div>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Cannolo di Ricotta</div>
+              <div class="menu-item-desc">Il classico siciliano</div>
+            </div>
+            <div class="menu-item-price">€5</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Tiramisù</div>
+              <div class="menu-item-desc"></div>
+            </div>
+            <div class="menu-item-price">€5</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Panna Cotta al Caramello Salato</div>
+              <div class="menu-item-desc">Senza zucchero e senza lattosio</div>
+            </div>
+            <div class="menu-item-price">€5</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Siciliana alla Nutella</div>
+              <div class="menu-item-desc"></div>
+            </div>
+            <div class="menu-item-price">€5</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Gelato Homemade</div>
+              <div class="menu-item-desc">Senza zucchero e senza lattosio</div>
+            </div>
+            <div class="menu-item-price">€5</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Pizza con Nutella</div>
+              <div class="menu-item-desc"></div>
+            </div>
+            <div class="menu-item-price">€10</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info">
+              <div class="menu-item-name">Pizza con Crema di Pistacchio</div>
+              <div class="menu-item-desc"></div>
+            </div>
+            <div class="menu-item-price">€12</div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-title">I Fritti</div>
+        <div class="menu-items">
+          <div class="menu-item">
+            <div class="menu-item-info"><div class="menu-item-name">Patatine*</div></div>
+            <div class="menu-item-price">€3,50</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-info"><div class="menu-item-name">Panelle*</div></div>
+            <div class="menu-item-price">€5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIBITE -->
+    <div class="menu-panel" id="panel-bibite">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Acqua Naturale / Gassata 75cl</div></div>
+          <div class="menu-item-price">€3</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Soft Drinks</div></div>
+          <div class="menu-item-price">€3</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Birra Semedorato alla Spina 25cl</div></div>
+          <div class="menu-item-price">€4</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Birra Semedorato alla Spina 40cl</div></div>
+          <div class="menu-item-price">€7</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Birra in Bottiglia 33cl</div></div>
+          <div class="menu-item-price">€6</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Vino al Calice</div></div>
+          <div class="menu-item-price">€6 / €9</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info"><div class="menu-item-name">Cocktails</div></div>
+          <div class="menu-item-price">€8</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPPLEMENTI -->
+    <div class="menu-panel" id="panel-supplementi">
+      <p style="color:var(--muted); margin-bottom:2rem; font-size:0.9rem;">Aggiunte disponibili per le pizze:</p>
+      <div class="suppl-grid">
+        <div class="suppl-item">
+          <span>Piselli*, olive, uovo, würstel, melanzane, peperoni, acciughe, mollica saporita, indivia, miele d'arancio</span>
+          <span class="suppl-price">+€1</span>
+        </div>
+        <div class="suppl-item">
+          <span>Prosciutto cotto, rucola, scaglie di grana, funghi, tuma, svizzero, pomodoro secco, ciliegino, patatine*, provola affumicata, carciofini, gorgonzola, panna, tonno, ricotta salata, biete*, broccoletti*, grana, ricotta, cipolla brasata</span>
+          <span class="suppl-price">+€1,50</span>
+        </div>
+        <div class="suppl-item">
+          <span>Pancetta, salame piccante, salame, verdure grigliate, Philadelphia, porchetta, noci, radicchio, prosciutto crudo, salsiccia, speck, mortadella, pistacchio, mozzarella</span>
+          <span class="suppl-price">+€2,50</span>
+        </div>
+        <div class="suppl-item">
+          <span>Mozzarella di bufala, funghi porcini, crema di carciofi, bresaola, crema di zucca</span>
+          <span class="suppl-price">+€3</span>
+        </div>
+        <div class="suppl-item">
+          <span>Impasto senza glutine</span>
+          <span class="suppl-price">+€3</span>
+        </div>
+        <div class="suppl-item">
+          <span>Impasto integrale pizzeria</span>
+          <span class="suppl-price">+€2</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+<!-- PRENOTAZIONE -->
+<section id="prenotazione">
+  <div class="container">
+    <div class="reservation-grid">
+      <div class="reservation-info reveal">
+        <span class="section-eyebrow">Prenota il tuo tavolo</span>
+        <h2 class="section-title">Vivi Da Carmelo<br/>con i tuoi tempi</h2>
+        <p>Compila il form qui sotto: la richiesta verrà inviata al ponte online e poi sincronizzata direttamente nella tua app.</p>
+        <div class="res-contact">
+          <div class="res-contact-item">
+            <span class="res-contact-icon">📞</span>
+            <div class="res-contact-text"><strong>Telefono</strong><br/><a href="tel:09311385898" style="color:inherit; text-decoration:none;">0931 138 5898</a></div>
+          </div>
+          <div class="res-contact-item">
+            <span class="res-contact-icon">🕒</span>
+            <div class="res-contact-text"><strong>Orari</strong><br/>Tutti i giorni · 12:00 – 00:00</div>
+          </div>
+          <div class="res-contact-item">
+            <span class="res-contact-icon">📍</span>
+            <div class="res-contact-text"><strong>Indirizzo</strong><br/>Via del Crocifisso 44/46 · Ortigia</div>
+          </div>
+        </div>
+      </div>
+      <div class="res-form reveal">
+        <form id="reservationForm" action="https://script.google.com/macros/s/AKfycbx3OAR1oHYP81_CSF4pdfXRdUK0RgHlBU_NZ3hPt7-ziiFBkw2geMgVHJwXmRpqMf-F_Q/exec" method="post" target="bridgeTarget" onsubmit="handleReservation(event)">
+          <input type="hidden" name="api_key" value="sorelleponte2025" />
+          <input type="hidden" name="restaurant_name" value="Da Carmelo" />
+          <input type="hidden" name="source" value="website-form" />
+          <input type="hidden" name="booking_type" value="Prenotazione" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome e cognome</label>
+              <input id="nome" name="customer_name" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Telefono</label>
+              <input id="telefono" name="phone" type="tel" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" />
+            </div>
+            <div class="form-group">
+              <label for="persone">Persone</label>
+              <select id="persone" name="guests" required>
+                <option value="">Seleziona</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="data">Data</label>
+              <input id="data" name="booking_date" type="date" required />
+            </div>
+            <div class="form-group">
+              <label for="orario">Orario</label>
+              <select id="orario" name="booking_time" required>
+                <option value="">Seleziona</option>
+                <option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option><option>14:00</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option><option>21:30</option><option>22:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="note">Note</label>
+            <textarea id="note" name="notes" placeholder="Allergie, seggiolone, richieste speciali..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Invia prenotazione</button>
+        </form>
+        <iframe name="bridgeTarget" style="display:none;"></iframe>
+        <p id="reservationMessage" class="reservation-message"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATTI & MAPPA -->
+<section id="contatti">
+  <div class="contacts-grid">
+    <div class="contacts-info reveal">
+      <div>
+        <span class="section-eyebrow">Vieni a trovarci</span>
+        <h2 class="section-title" style="margin-top:0.5rem;">Dove<br/>Siamo</h2>
+        <div style="width:40px; height:1px; background:var(--gold); margin-top:1.5rem;"></div>
+      </div>
+      <div class="contact-block">
+        <span class="contact-block-title">Indirizzo</span>
+        <div class="contact-block-val">
+          <a href="https://maps.google.com/?q=Via+del+Crocefisso+44+Siracusa" target="_blank">
+            Via del Crocifisso 44/46<br/>
+            Ortigia, 96100 Siracusa SR
+          </a>
+        </div>
+      </div>
+      <div class="contact-block">
+        <span class="contact-block-title">Telefono</span>
+        <div class="contact-block-val">
+          <a href="tel:09311385898">0931 138 5898</a>
+        </div>
+      </div>
+      <div class="contact-block">
+        <span class="contact-block-title">Orari di apertura</span>
+        <div class="contact-block-val">
+          Tutti i giorni<br/>
+          12:00 – 00:00
+        </div>
+      </div>
+      <div class="contact-block">
+        <span class="contact-block-title">Seguici</span>
+        <div class="contact-social">
+          <a href="#" class="social-link" aria-label="Instagram" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Facebook" title="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/390931385898" class="social-link" aria-label="WhatsApp" title="WhatsApp" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153!2d15.2955605!3d37.0600228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313cde7306df2a1%3A0xb885cc978a97ae67!2sDa%20Carmelo!5e0!3m2!1sit!2sit!4v1681234567890"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Da Carmelo - Mappa">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="images/logo.png" alt="Da Carmelo" />
+  <div class="footer-divider"></div>
+  <p>
+    Via del Crocifisso 44/46 · Ortigia · 96100 Siracusa SR<br/>
+    Tel: <a href="tel:09311385898">0931 138 5898</a> · Aperto tutti i giorni 12:00–00:00
+  </p>
+  <div class="footer-divider"></div>
+  <p style="font-size:0.72rem; opacity:0.5;">© 2026 Da Carmelo – Life's Flow · Tutti i diritti riservati · P.IVA [inserire]</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img src="" id="lightboxImg" alt="" />
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Richiesta inviata! Ti contatteremo presto.</div>
+
+<script>
+  // NAVBAR SCROLL
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // MOBILE MENU
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  document.querySelectorAll('.mobile-link').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // MENU TABS
+  document.querySelectorAll('.menu-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const panel = document.getElementById('panel-' + tab.dataset.panel);
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  // LIGHTBOX
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (!e || e.target !== document.getElementById('lightboxImg')) {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // SCROLL REVEAL
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // RESERVATION FORM
+  function handleReservation(e) {
+    e.preventDefault();
+    const form = e.target;
+    const action = form.getAttribute('action') || '';
+    const apiKey = form.querySelector('input[name="api_key"]').value || '';
+    const message = document.getElementById('reservationMessage');
+    if (!action || !apiKey) {
+      message.className = 'reservation-message error';
+      message.textContent = 'Configura prima il ponte online.';
+      return;
+    }
+    message.className = 'reservation-message success';
+    message.textContent = 'Richiesta inviata. Ti contatteremo per la conferma.';
+
+    const toast = document.getElementById('toast');
+    toast.textContent = '✓ Prenotazione inviata!';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+    setTimeout(() => form.reset(), 700);
+    form.submit();
+  }
+
+  // SET MIN DATE
+  const dateInput = document.getElementById('data');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+  }
+</script>
+</body>
+</html>
